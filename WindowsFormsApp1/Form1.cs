@@ -39,7 +39,7 @@ namespace WindowsFormsApp1
 
             // sanitizar cadena. válida que la cadena sean números y 16 carácteres.
 
-            if (Regex.IsMatch(tarjetaCuenta, "^[0-9]{16}$"))
+            if (Regex.IsMatch(tarjetaCuenta, "^[0-9]{16}$", RegexOptions.None, TimeSpan.FromMilliseconds(100)))
             {
                 textBox5.Text = tarjetaCuenta; 
                 
