@@ -79,7 +79,7 @@ namespace WindowsFormsApp1
                 // convierte en cadea
                 foreach (byte b in hashValue)
                 {
-                   // hash += $"{b:X2}";
+
 
                     obtieneCadena.Append($"{b:X2}");
                 }
