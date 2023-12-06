@@ -57,15 +57,17 @@ namespace WindowsFormsApp1
         {
             String cadenaPrincipal = textBox5.Text;
 
-            string hash = ComputeSHA256(cadenaPrincipal);
+            string hash = CalcularSHA256(cadenaPrincipal);
 
             textBox6.Text = hash;
 
 
         }
 
-        static string ComputeSHA256(string s)
+        static string CalcularSHA256(string s)
         {
+            StringBuilder obtieneCadena = new StringBuilder();
+
             string hash = String.Empty;
 
             // inicia
@@ -77,9 +79,13 @@ namespace WindowsFormsApp1
                 // convierte en cadea
                 foreach (byte b in hashValue)
                 {
-                    hash += $"{b:X2}";
+                   // hash += $"{b:X2}";
+
+                    obtieneCadena.Append($"{b:X2}");
                 }
             }
+
+            hash = obtieneCadena.ToString();
 
             return hash;
         }
@@ -225,7 +231,7 @@ namespace WindowsFormsApp1
             else
             {
 
-                string hash = ComputeSHA256(cadenaPrincipal);
+                string hash = CalcularSHA256(cadenaPrincipal);
 
                 textBox9.Text = hash;
 
