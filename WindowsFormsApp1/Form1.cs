@@ -281,10 +281,14 @@ namespace WindowsFormsApp1
 
                 textBox9.Text = hash;
 
-                if (textBox9.Text == textBox6.Text) {
+                if (textBox9.Text == textBox6.Text)
+                {
 
                     label3.Text = "Felicidades la cadena SHA256 es la misma !!! ";
 
+                }
+                else {
+                    label3.Text = "Algo salió mal =( !!! ";
                 }
 
             }
