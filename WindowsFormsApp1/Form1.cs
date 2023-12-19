@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Reflection.Emit;
 using System.Security.Cryptography;
 using System.Text;
@@ -36,27 +37,65 @@ namespace WindowsFormsApp1
 
         private void button1_Click(object sender, EventArgs e)
         {
+
+            String validatarjeta;
+
             String tarjetainicio;
             String tarjetafinal;
-            String tarjetaCuenta = textBox1.Text;
+            String tarjetaCuenta; 
 
-            // sanitizar cadena. válida que la cadena sean números y 16 carácteres.
+            String tarjeta = textBox1.Text;
 
-            if (Regex.IsMatch(tarjetaCuenta, "^[0-9]{16}$", RegexOptions.None))
+            // sanitizar cadena
+
+            tarjetaCuenta = Regex.Replace(tarjeta, @"[^\w\s.!@$%^&*()\-\/]+", "");
+
+ 
+                // función que válida que la cadena sea una tarjeta
+                validatarjeta = validaTarjeta(tarjetaCuenta);
+
+                Console.WriteLine("validatarjeta : " + validatarjeta);
+
+                if (validatarjeta == "ok")
+                {
+
+                    tarjetainicio = tarjetaCuenta.Substring(0, 4);
+
+                    tarjetafinal = Regex.Replace(tarjetaCuenta.Substring(4), "[0-9]", "*");
+
+                    textBox5.Text = tarjetainicio + tarjetafinal;
+
+                    // muestra la siguiente opción
+                    groupBox2.Visible = true;
+                }
+                else {
+                    MessageBox.Show("Agregar un número de tarjeta de crédito o debito válida.\nPor ejemplo : 5689 5958 8598 8594");
+
+                }
+
+
+
+    
+
+        }
+
+
+        private String validaTarjeta(String Tarjeta) {
+
+            String bandera;
+
+            if (Regex.IsMatch(Tarjeta, "^[0-9]{15,16}|(([0-9]{4}\\s){3}[0-9]{3,4})$", RegexOptions.None))
             {
-                tarjetainicio = tarjetaCuenta.Substring(0, 4);
 
-                tarjetafinal = Regex.Replace(tarjetaCuenta.Substring(4), "[0-9]", "*");
-
-                textBox5.Text = tarjetainicio + tarjetafinal; 
-                
-                // muestra la siguiente opción
-                groupBox2.Visible = true;
+                bandera = "ok";
 
             }
-            else {
-                MessageBox.Show("Agregar un número de tarjeta de crédito o debito válida.\nPor ejemplo : 5689 5958 8598 8594");
+            else
+            {
+                bandera = "Error";
             }
+
+            return bandera;
 
         }
 
