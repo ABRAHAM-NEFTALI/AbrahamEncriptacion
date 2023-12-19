@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -35,27 +36,33 @@ namespace WindowsFormsApp1
 
         private void button1_Click(object sender, EventArgs e)
         {
-            String tarjetaCuenta = textBox1.Text + textBox2.Text + textBox3.Text + textBox4.Text;
+            String tarjetainicio;
+            String tarjetafinal;
+            String tarjetaCuenta = textBox1.Text;
 
             // sanitizar cadena. válida que la cadena sean números y 16 carácteres.
 
-            if (Regex.IsMatch(tarjetaCuenta, "^[0-9]{16}$", RegexOptions.None, TimeSpan.FromMilliseconds(100)))
+            if (Regex.IsMatch(tarjetaCuenta, "^[0-9]{16}$", RegexOptions.None))
             {
-                textBox5.Text = tarjetaCuenta; 
+                tarjetainicio = tarjetaCuenta.Substring(0, 4);
+
+                tarjetafinal = Regex.Replace(tarjetaCuenta.Substring(4), "[0-9]", "*");
+
+                textBox5.Text = tarjetainicio + tarjetafinal; 
                 
                 // muestra la siguiente opción
                 groupBox2.Visible = true;
 
             }
             else {
-                MessageBox.Show("Agregar cuatro números en cada uno de los campos.\nPor ejemplo : 5689 5958 8598 8594");
+                MessageBox.Show("Agregar un número de tarjeta de crédito o debito válida.\nPor ejemplo : 5689 5958 8598 8594");
             }
 
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            String cadenaPrincipal = textBox5.Text;
+            String cadenaPrincipal = textBox1.Text;
 
             string hash = CalcularSHA256(cadenaPrincipal);
 
@@ -100,7 +107,7 @@ namespace WindowsFormsApp1
             // Crea IV
             IVASE = CreateIV();
 
-            string plaintext = textBox5.Text;
+            string plaintext = textBox1.Text;
             string encryptedText;
 
             // Encrypt
@@ -235,7 +242,23 @@ namespace WindowsFormsApp1
 
                 textBox9.Text = hash;
 
+                if (textBox9.Text == textBox6.Text) {
+
+                    label3.Text = "Felicidades la cadena SHA256 es la misma !!! ";
+
+                }
+
             }
+
+        }
+
+        private void textBox5_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
 
         }
     }
